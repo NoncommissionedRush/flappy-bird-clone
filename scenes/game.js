@@ -1,11 +1,13 @@
-let highScore = 0;
-let SPEED = 250;
-
 export default function Game() {
+  let score = 0;
+  let highScore = 0;
+  let SPEED = 250;
+
+  // add background
   add([sprite("bg", { width: width(), height: height() })]);
 
+  // create the bird
   const bird = add([sprite("bird"), pos(200, 40), area(), scale(0.1), body()]);
-  let score = 0;
 
   function generatePipe() {
     const GAP = rand(200, 300);
@@ -32,8 +34,10 @@ export default function Game() {
     ]);
   }
 
+  // generate new pipe every 2 seconds
   loop(2, generatePipe);
 
+  // increase speed every 10 pipes
   loop(1, () => {
     if (score > 1 && score % 10 === 0) {
       SPEED += 50;
@@ -53,6 +57,7 @@ export default function Game() {
       destroy(pipe);
     }
 
+    // increase score by 1 when pipe is cleared
     if (pipe.cleared === false && bird.pos.x > pipe.pos.x) {
       pipe.cleared = true;
       score += 1;
